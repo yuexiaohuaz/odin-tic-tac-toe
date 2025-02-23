@@ -42,33 +42,32 @@ function gameBoard() {
     let board = [];
     const rows = 3;
     const columns = 3;
-    for (let i = 0; i < rows; i++) { 
+    for (let i = 0; i < (rows * columns); i++) { 
         //creates board whose size can be changed by changing the values of 
         //rows and columns
-        for (let j = 0; j < columns; j++) {
         board.push(cell()); //making each part of the bpard a cell
-        }
     };
     const getBoard = () => board;
     const placePiece = ((piecePlaced, player) => {
-        if(board[piecePlaced] != 0) {
+        if(board[piecePlaced].getValue() == 0) {
             board[piecePlaced].addPiece(player);
         } 
         else {
-           return; 
+            return; 
         }
 
     });
-    function printBoard() {
-        const boardWithCellValues = board.map((column) => column.map((cell) => cell.getValue()));
+    const printBoard = () => {
+        const boardWithCellValues = board.map((cell) => cell.getValue());
         console.log(boardWithCellValues);
+        
     };
     return {getBoard, placePiece, printBoard};
 }
 function cell() {
     value = 0;
     const addPiece = (player) => {
-        value = player;
+        value = player.token;
     }
     const getValue = () => value;
     return {addPiece, getValue};
@@ -93,7 +92,7 @@ function playGame() {
     }
     const printNewRound = () => {
         board.printBoard();
-        console.log(`${getActivePlayer()}'s turn.`)
+        console.log(`${getActivePlayer().name}'s turn.`)
 
     }
     const playRound = (piecePlaced) => {
@@ -105,4 +104,4 @@ function playGame() {
     printNewRound();
     return {playRound, getActivePlayer};
 }
-playGame();
+const game = playGame();
