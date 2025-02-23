@@ -65,9 +65,9 @@ function gameBoard() {
     return {getBoard, placePiece, printBoard};
 }
 function cell() {
-    value = 0;
+    let value = 0;
     const addPiece = (player) => {
-        value = player.token;
+        value = player;
     }
     const getValue = () => value;
     return {addPiece, getValue};
@@ -84,11 +84,10 @@ function playGame() {
         }
     ]; //maybe add a function to choose who goes first
     let activePlayer = players[0];
-    let player = players.indexOf(activePlayer);
     let board = gameBoard();
     const getActivePlayer = () => activePlayer;
     const switchActivePlayer = () => {
-        activePlayer = (player + 1 < players.length) ? players[player + 1] : players[0];
+        activePlayer = (activePlayer == players[0]) ? players[1] : players[0];
     }
     const printNewRound = () => {
         board.printBoard();
@@ -97,7 +96,7 @@ function playGame() {
     }
     const playRound = (piecePlaced) => {
         console.log(piecePlaced);
-        board.placePiece(piecePlaced, getActivePlayer());
+        board.placePiece(piecePlaced, getActivePlayer().token);
         switchActivePlayer();
         printNewRound();
     }
