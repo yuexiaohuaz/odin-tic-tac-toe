@@ -129,4 +129,17 @@ function playGame() {
     printNewRound();
     return {playRound, getActivePlayer};
 }
-const game = playGame();
+
+// function screenController() {
+//     const game = playGame();
+//     const updateScreen = () => {
+//         //sets .board's div to empty
+//         //gets board from game controller and active player
+//         //renders the player's turn (informs them on the turn div)
+//         //render each grid square on the DOM. each cell is a button.
+//     }
+//     const addMark = () => {
+//         //trigger this on event listener
+//     }
+// }
+
