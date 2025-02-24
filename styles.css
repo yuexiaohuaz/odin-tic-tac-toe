@@ -3,3 +3,41 @@
     padding: 0;
     box-sizing: border-box;
 }
+.content {
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 1fr 8fr 0.1fr;
+    background-color: #E0E2E1;
+} 
+.header {
+    font-size: 4rem;
+    font-family: "Papyrus", "Times New Roman", "Arial";
+    text-align: center;
+    background-color: #68A042;
+    border: 2px solid #287443;
+    color: #E0E2E1;
+}
+.footer {
+    display: flex;
+    align-items: flex-end;
+}
+.board {
+    width: 70vh;
+    height: 70vh;
+    background-color: grey;
+    margin-top: 5vh;
+    display: grid;
+    grid: repeat(3, 1fr) / repeat(3, 1fr);
+    margin-left: 31.5vw;
+    border-radius: 15px;
+}
+button {
+    margin: 1vh;
+    border-radius: 10%;
+}
+button:hover {
+    background-color: gainsboro;
+}
+button:active {
+    border-color: green;
+}
