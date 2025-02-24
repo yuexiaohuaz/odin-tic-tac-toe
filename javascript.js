@@ -97,32 +97,24 @@ function playGame() {
 
     }
     const checkGameWon = () => {
-        boardElements = board.getBoard().map((cell) => cell.getValue());
-        if (boardElements[0] == boardElements[1] && boardElements[1] == boardElements[2]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        } 
-        else if (boardElements[3] == boardElements[4] && boardElements[4] == boardElements[5]) {
-            console.log(`${getActivePlayer().name} has won!`);
+        const boardElements = board.getBoard().map((cell) => cell.getValue());
+        const winConditions = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ]
+        for(const [a, b, c] of winConditions) {
+            if (boardElements[a] == boardElements[b] && boardElements[b] == boardElements[c] && boardElements[a] != 0) {
+                console.log(`${getActivePlayer().name} has won!`);
+                return;
+            } 
         }
-        else if (boardElements[6] == boardElements[7] && boardElements[7] == boardElements[8]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        }
-        else if (boardElements[0] == boardElements[3] && boardElements[3] == boardElements[6]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        }
-        else if (boardElements[1] == boardElements[4] && boardElements[4] == boardElements[7]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        }
-        else if (boardElements[2] == boardElements[5] && boardElements[5] == boardElements[8]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        }
-        else if (boardElements[0] == boardElements[4] && boardElements[4] == boardElements[8]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        } 
-        else if (boardElements[2] == boardElements[4] && boardElements[4] == boardElements[6]) {
-            console.log(`${getActivePlayer().name} has won!`);
-        }
-        else if (boardElements.filter(item => item == 0).length == 0) {
+        if (boardElements.filter(item => item == 0).length == 0) {
             console.log("Tie!");
         }
     }
@@ -138,17 +130,3 @@ function playGame() {
     return {playRound, getActivePlayer};
 }
 const game = playGame();
-//for winning game logic, check if any of the 8 possible ways to win have 3 of the same piece on them.
-/*
-0, 1, 2
-3, 4, 5
-6, 7, 8
-
-0, 3, 6
-1, 4, 7
-2, 5, 8
-
-0, 4, 8
-2, 4, 6
-
-*/
