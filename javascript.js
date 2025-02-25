@@ -3,8 +3,6 @@ function gameBoard() {
     const rows = 3;
     const columns = 3;
     for (let i = 0; i < (rows * columns); i++) { 
-        //creates board whose size can be changed by changing the values of 
-        //rows and columns
         board.push(cell()); //making each part of the bpard a cell
     };
     const getBoard = () => board;
@@ -13,7 +11,7 @@ function gameBoard() {
             board[piecePlaced].addPiece(player);
         } 
         else {
-            return; 
+            return; //if it's already been clicked, then update the div to say that it's been already selected.
         }
 
     });
@@ -35,8 +33,9 @@ function cell() {
     return {addPiece, getValue};
 }
 function playGame() {
-    playerOneName = "Player One";
-    playerTwoName = "Player Two";
+    let gameOngoing = true;
+    let playerOneName = "Player One";
+    let playerTwoName = "Player Two";
     const players = [
         {name: playerOneName,
             token: "X",
@@ -53,7 +52,7 @@ function playGame() {
     }
     const printNewRound = () => {
         board.printBoard();
-        console.log(`${getActivePlayer().name}'s turn.`)
+        return `${getActivePlayer().name}'s turn.`;
 
     }
     const checkGameWon = () => {
@@ -70,35 +69,74 @@ function playGame() {
         ]
         for(const [a, b, c] of winConditions) {
             if (boardElements[a] == boardElements[b] && boardElements[b] == boardElements[c] && boardElements[a] != 0) {
+                stopGame();
                 return `${getActivePlayer().name} has won!`;
             } 
         }
         if (boardElements.filter(item => item == 0).length == 0) {
+            stopGame();
             return "Tie!";
         }
+        else {
+            return printNewRound();
+        }
     }
+    const stopGame = () => {
+        gameOngoing = false;
+    }
+    const resetGame = () => {
+        gameOngoing = true;
+    }
+    const isGameOngoing = () => gameOngoing;
     const playRound = (piecePlaced) => {
-        console.log(piecePlaced);
-        board.placePiece(piecePlaced, getActivePlayer().token);
-        checkGameWon();
-        switchActivePlayer();
-        printNewRound();
-        
+        if (gameOngoing == true) {
+            console.log(piecePlaced);
+            board.placePiece(piecePlaced, getActivePlayer().token);
+            checkGameWon();
+            switchActivePlayer();
+            printNewRound();
+        } else {
+            return;
+        }
     }
     printNewRound();
-    return {playRound, getActivePlayer, checkGameWon};
+    return {playRound, getActivePlayer, checkGameWon, isGameOngoing, resetGame};
 }
 
 function screenController() {
     const game = playGame();
-    const updateScreen = () => {
-        //sets .board's div to empty
-        //gets board from game controller and active player
-        //renders the player's turn (informs them on the turn div)
-        //render each grid square on the DOM. each cell is a button.
+    const message = document.querySelector(".message");
+    let gameboard = document.querySelector(".gameboard");
+    const updateScreen = () => { 
+        //creates 9 buttons and adds event listeners to all
+        resetScreen();
+        for (let i = 0; i < 9; i++) {
+            let button = document.createElement("button");
+            addMark(button, i);
+            gameboard.appendChild(button);
+        }
+        game.resetGame();
+        
     }
-    const addMark = () => {
-        //trigger this on event listener
+    const resetScreen = () => {
+        gameboard.innerHTML = "";
     }
+    const addMark = (button, index) => {
+        button.addEventListener("click", () => {
+            if (game.isGameOngoing()) {
+                button.textContent = `${game.getActivePlayer().token}`;
+                game.playRound(index);
+                message.textContent = `${game.checkGameWon()}`;
+            }
+            
+        });
+    }
+    return {updateScreen};
 }
 
+const startBtn = document.querySelector(".start");
+const gameController = screenController();
+startBtn.addEventListener(("click"), () => {
+    gameController.updateScreen();
+    startBtn.textContent = "Reset";
+});

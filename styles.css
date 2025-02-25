@@ -6,7 +6,7 @@
 .content {
     height: 100vh;
     display: grid;
-    grid-template-rows: 1fr 8fr 0.1fr;
+    grid-template-rows: 1fr 8fr 1fr;
     background-color: #E0E2E1;
 } 
 .header {
@@ -17,11 +17,14 @@
     border: 2px solid #287443;
     color: #E0E2E1;
 }
+.message {
+    font-size: 1rem;
+}
 .footer {
     display: flex;
     align-items: flex-end;
 }
-.board {
+.gameboard {
     width: 70vh;
     height: 70vh;
     background-color: grey;
@@ -31,13 +34,14 @@
     margin-left: 31.5vw;
     border-radius: 15px;
 }
-button {
+.gameboard button {
     margin: 1vh;
     border-radius: 10%;
+    font-size: 4rem;
 }
-button:hover {
+.gameboard button:hover {
     background-color: gainsboro;
 }
-button:active {
+.gameboard button:active {
     border-color: green;
 }
